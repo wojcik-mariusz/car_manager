@@ -9,4 +9,4 @@ class CarAdmin(admin.ModelAdmin):
     list_display = ["name", "description", "type_of_fuel", "inssurance_expired_date"]
 
 
-admin.register(CarProductionDetail)
+admin.site.register(CarProductionDetail)

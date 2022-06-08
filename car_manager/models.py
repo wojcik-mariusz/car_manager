@@ -7,7 +7,10 @@ class CarProductionDetail(models.Model):
     company = models.TextField(null=True, blank=True)
     car_model_name = models.TextField(null=True, blank=True)
     production_year = models.IntegerField(null=True, blank=True)
-    vin = models.IntegerField(null=True, blank=True)
+    vin = models.CharField(null=True, blank=True, max_length=17)
+
+    def __str__(self):
+        return f"{self.company} {self.car_model_name} ({self.production_year})"
 
 
 class Car(models.Model):

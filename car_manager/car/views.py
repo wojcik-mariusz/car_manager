@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-from car_manager.forms.car_form import CarForm, CarProductionDetailForm
+from car.forms.car_form import CarForm, CarProductionDetailForm
 
 
-from car_manager.services.db_services import get_all_car_obj_from_db
+from car.services.db_services import get_all_car_obj_from_db, get_car_obj_filter_by_id
 # Create your views here.
 
 
@@ -22,10 +22,7 @@ def home(request):
 
 @login_required
 def add_new_car(request):
-    print(request.user)
-    car_form = CarForm(request.POST or None, initial={
-        "user_name": request.user
-    })
+    car_form = CarForm(request.POST or None)
     car_production_detail_form = CarProductionDetailForm(request.POST or None)
     context = {
         "car_form": car_form,
@@ -34,7 +31,6 @@ def add_new_car(request):
 
     if all((car_form.is_valid(), car_production_detail_form.is_valid())):
         car = car_form.save(commit=False)
-        # car.user_name = request.user
         detail = car_production_detail_form.save()
         car.detail = detail
         car.save()
@@ -42,3 +38,8 @@ def add_new_car(request):
         return redirect(home)
 
     return render(request, 'car-form.html', context)
+
+
+@login_required
+def edit_car(request, id):
+    car = get_object_or_404()

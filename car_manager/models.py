@@ -1,3 +1,4 @@
+import datetime
 from typing import List
 
 from django.db import models
@@ -20,6 +21,6 @@ class Car(models.Model):
     # optional fields
     description = models.TextField(null=True, blank=True)
     type_of_fuel = models.CharField(max_length=2, choices=fuel_choices, null=True, blank=True)
-    inssurance_expired_date = models.DateField(null=True, blank=True)
+    inssurance_expired_date = models.DateField(null=True, blank=True, default=datetime.datetime.now())
     detail = models.OneToOneField(CarProductionDetail, on_delete=models.CASCADE, null=True, blank=True)
     user_name = models.CharField(max_length=150, default="")

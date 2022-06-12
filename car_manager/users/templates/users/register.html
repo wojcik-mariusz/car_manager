@@ -1,0 +1,15 @@
+{% extends 'car/base.html' %}
+
+{% block title %} New user {% endblock %}
+
+{% block body %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button class="btn btn-outline-info" type="submit">Sign Up</button>
+
+    </form>
+
+{% endblock %}

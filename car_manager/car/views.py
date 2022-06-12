@@ -15,7 +15,7 @@ def home(request):
         "cars": cars
     }
 
-    return render(request, 'home.html', context)
+    return render(request, 'car-home.html', context)
 
 
 # TODO CRUD

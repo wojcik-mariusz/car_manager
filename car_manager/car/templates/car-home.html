@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %} Car Home {% endblock %}
+
+{% block body %}
+
+    {% for car in cars %}
+        <p>{{ car.name }}</p>
+    {% endfor %}
+
+{% endblock %}

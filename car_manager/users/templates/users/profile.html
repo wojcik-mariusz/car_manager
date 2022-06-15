@@ -24,7 +24,7 @@
     </tr>
   </tbody>
 </table>
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <p>Profile info</p>
     {{ user_form|crispy}}

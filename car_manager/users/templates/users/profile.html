@@ -24,5 +24,11 @@
     </tr>
   </tbody>
 </table>
-
+  <form method="post">
+    {% csrf_token %}
+    <p>Profile info</p>
+    {{ user_form|crispy}}
+    {{ profile_form|crispy}}
+    <button class="btn btn-outline-info" type="submit">Apply changes</button>
+  </form>
 {% endblock %}

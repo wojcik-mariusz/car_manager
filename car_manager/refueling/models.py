@@ -9,7 +9,7 @@ from car.models import Car
 class Refueling(models.Model):
     mileage = models.IntegerField()
     date_refueling = models.DateField(default=timezone.now())
-    price = models.DecimalField(max_digits=4, decimal_places=2, blank=False, null=True)
+    price = models.DecimalField(max_digits=6, decimal_places=2, blank=False, null=True)
     cost_per_litr = models.DecimalField(
         max_digits=4, decimal_places=2, blank=False, null=False
     )

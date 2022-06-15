@@ -20,5 +20,12 @@ class Car(models.Model):
     name = models.CharField(max_length=120, unique=True)
     # optional fields
     description = models.CharField(null=True, blank=True, max_length=250)
-    type_of_fuel = models.CharField(max_length=2, choices=fuel_choices, null=True, blank=True)
-    detail = models.OneToOneField(CarProductionDetail, on_delete=models.CASCADE, null=True, blank=True)
+    type_of_fuel = models.CharField(
+        max_length=2, choices=fuel_choices, null=True, blank=True
+    )
+    detail = models.OneToOneField(
+        CarProductionDetail, on_delete=models.CASCADE, null=True, blank=True
+    )
+
+    def __str__(self):
+        return f"{self.name}"

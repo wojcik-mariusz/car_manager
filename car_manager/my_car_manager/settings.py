@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # external
+    "crispy_forms",
     # own
     "car",
     "users.apps.UsersConfig",
-    "crispy_forms",
+    "refueling.apps.RefuelingConfig"
 ]
 
 MIDDLEWARE = [

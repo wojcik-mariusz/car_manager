@@ -14,4 +14,4 @@ class Refueling(models.Model):
         max_digits=4, decimal_places=2, blank=False, null=False
     )
     tanked_to_max_level = models.BooleanField(default=False)
-    car = models.OneToOneField(Car, on_delete=models.CASCADE, null=True, blank=False)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True, blank=False)

@@ -8,10 +8,10 @@ from .models import Refueling
 @admin.register(Refueling)
 class RefuelingAdmin(admin.ModelAdmin):
     list_display = [
-        "mileage",
         "date_refueling",
+        "car",
+        "mileage",
         "price",
         "cost_per_litr",
         "tanked_to_max_level",
-        "car",
     ]

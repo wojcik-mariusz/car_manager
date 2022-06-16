@@ -5,20 +5,20 @@ from car.forms.car_form import CarForm, CarProductionDetailForm
 
 
 from car.services.db_services import get_all_car_obj_from_db, get_car_obj_filter_by_id
+
 # Create your views here.
 
 
 def home(request):
     cars = get_all_car_obj_from_db()
 
-    context = {
-        "cars": cars
-    }
+    context = {"cars": cars}
 
-    return render(request, 'car-home.html', context)
+    return render(request, "car-home.html", context)
 
 
 # TODO CRUD
+
 
 @login_required
 def add_new_car(request):
@@ -26,7 +26,7 @@ def add_new_car(request):
     car_production_detail_form = CarProductionDetailForm(request.POST or None)
     context = {
         "car_form": car_form,
-        "car_production_detail_form": car_production_detail_form
+        "car_production_detail_form": car_production_detail_form,
     }
 
     if all((car_form.is_valid(), car_production_detail_form.is_valid())):
@@ -37,7 +37,7 @@ def add_new_car(request):
 
         return redirect(home)
 
-    return render(request, 'car-form.html', context)
+    return render(request, "car-form.html", context)
 
 
 @login_required

@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from car.models import Car, CarProductionDetail
+
 # Register your models here.
 
 

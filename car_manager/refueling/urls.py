@@ -20,5 +20,5 @@ from . import views
 from .views import RefuelingListView
 
 urlpatterns = [
-    path('', RefuelingListView.as_view(), name='all-refuelings'),
+    path("", RefuelingListView.as_view(), name="all-refuelings"),
 ]

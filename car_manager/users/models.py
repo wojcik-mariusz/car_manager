@@ -8,14 +8,14 @@ from PIL import Image
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    picture = models.ImageField(default='profile_pics/default.jpg', upload_to='profile_pics')
+    picture = models.ImageField(
+        default="profile_pics/default.jpg", upload_to="profile_pics"
+    )
 
     def __str__(self):
         return f"Profile of {self.user.username}"
 
-    def save(
-        self, *args, **kwargs
-    ):
+    def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
         pic = Image.open(self.picture.path)

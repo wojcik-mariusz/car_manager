@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.urls import path
 from car.views import home, add_new_car
+
 urlpatterns = [
-    path('', home, name='cars_home'),
-    path('new-car/', add_new_car, name='add_car'),
+    path("", home, name="cars_home"),
+    path("new-car/", add_new_car, name="add_car"),
 ]

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.views.generic import ListView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 from car.forms.car_form import CarForm, CarProductionDetailForm
 from car.models import Car, CarProductionDetail
@@ -24,6 +25,11 @@ class CarListView(ListView):
     model = Car
     template_name = "car-home.html"
     context_object_name = "cars"
+
+
+class CarDetailView(DetailView):
+    model = Car
+    template_name = "car-detail.html"
 
 
 # TODO CRUD
@@ -50,9 +56,9 @@ def add_new_car(request):
 
 
 @login_required
-def edit_car(request, id):
+def edit_car(request, pk):
     if request.method == "POST":
-        car = get_object_or_404(Car, pk=id)
+        car = get_object_or_404(Car, pk=pk)
         car_form = CarForm(request.POST, instance=car)
         car_details = CarProductionDetailForm(request.POST, instance=car.detail)
 

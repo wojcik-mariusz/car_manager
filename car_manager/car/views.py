@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.generic import ListView
 
 from car.forms.car_form import CarForm, CarProductionDetailForm
 from car.models import Car, CarProductionDetail
@@ -12,11 +13,17 @@ from car.services.db_services import get_all_car_obj_from_db, get_car_obj_filter
 
 
 def home(request):
-    cars = get_all_car_obj_from_db()
-
-    context = {"cars": cars}
-
+    context = {
+        "title": "Car List",
+        "cars": Car.objects.all()
+    }
     return render(request, "car-home.html", context)
+
+
+class CarListView(ListView):
+    model = Car
+    template_name = "car-home.html"
+    context_object_name = "cars"
 
 
 # TODO CRUD

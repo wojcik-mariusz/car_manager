@@ -6,8 +6,8 @@
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ car_form }}
-    {{ car_production_detail_form }}
+    {{ car_form.as_p }}
+    {{ car_production_detail_form.as_p }}
     <button type="submit">Add Car</button>
 </form>
 

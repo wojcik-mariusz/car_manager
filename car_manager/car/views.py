@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from car.forms.car_form import CarForm, CarProductionDetailForm
+from car.models import Car, CarProductionDetail
 
 
 from car.services.db_services import get_all_car_obj_from_db, get_car_obj_filter_by_id
@@ -42,4 +44,26 @@ def add_new_car(request):
 
 @login_required
 def edit_car(request, id):
-    car = get_object_or_404()
+    if request.method == "POST":
+        car = get_object_or_404(Car, pk=id)
+        car_form = CarForm(request.POST, instance=car)
+        car_details = CarProductionDetailForm(request.POST, instance=car.detail)
+
+        if all((car_form.is_valid(), car_details.is_valid())):
+            car_form.save()
+            car_details.save()
+            return redirect("cars_home")
+
+        return redirect("cars_home")
+
+    else:
+        car = get_object_or_404(Car, pk=id)
+        car_form = CarForm(instance=car)
+        car_details = CarProductionDetailForm(instance=car.detail)
+
+        context = {
+            "car_form": car_form,
+            "car_production_detail_form": car_details,
+        }
+
+        return render(request, "car-form.html", context)

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic import CreateView
 
 from car.forms.car_form import CarForm, CarProductionDetailForm
 from car.models import Car, CarProductionDetail
@@ -31,6 +32,32 @@ class CarDetailView(DetailView):
     model = Car
     template_name = "car-detail.html"
 
+
+class CarCreateView(CreateView):
+    model = Car
+    form_class = CarForm
+    template_name = "car-form.html"
+    # fields = ["name", "description", "type_of_fuel", "detail"]
+
+    def get_context_data(self, **kwargs):
+        context = super(CarCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['car'] = CarForm(self.request.POST)
+            context['carproductiondetail'] = CarProductionDetailForm(self.request.POST)
+        else:
+            context['car'] = CarForm()
+            context['carproductiondetail'] = CarProductionDetailForm()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        carproductiondetail = context['carproductiondetail']
+        if carproductiondetail.is_valid() and form.is_valid():
+            f = form.save()
+            shelf = carproductiondetail.save(commit=False)
+            shelf.car = f
+            shelf.save()
+        return super().form_valid(form)
 
 # TODO CRUD
 

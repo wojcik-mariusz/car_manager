@@ -4,10 +4,11 @@
 
 {% block body %}
 
-<form method="post" enctype="multipart/form-data">
+
+<form method="post">
     {% csrf_token %}
-    {{ car_form }}
-    {{ car_production_detail_form }}
+    {{ car.as_p }}
+    {{ carproductiondetail.as_p }}
     <button type="submit">Add Car</button>
 </form>
 

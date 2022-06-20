@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic import CreateView
 
 from car.forms.car_form import CarForm, CarProductionDetailForm
-from car.models import Car, CarProductionDetail
+from car.models import Car
 
 
 from car.services.db_services import get_all_car_obj_from_db, get_car_obj_filter_by_id
@@ -33,11 +34,11 @@ class CarDetailView(DetailView):
     template_name = "car-detail.html"
 
 
-class CarCreateView(CreateView):
+class CarCreateView(LoginRequiredMixin, CreateView):
     model = Car
     form_class = CarForm
     template_name = "car-form.html"
-    # fields = ["name", "description", "type_of_fuel", "detail"]
+    success_url = 'cars-home.html'
 
     def get_context_data(self, **kwargs):
         context = super(CarCreateView, self).get_context_data(**kwargs)

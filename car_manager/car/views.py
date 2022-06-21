@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 from car.forms.car_form import CarForm, CarProductionDetailForm
 from car.models import Car
@@ -86,6 +86,20 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
             shelf.car = f
             shelf.save()
         return super().form_valid(form)
+
+
+class CarDeleteView(LoginRequiredMixin, DeleteView):
+    model = Car
+    template_name = "car-delete_confirm.html"
+    success_url = '/cars/'
+
+    def get_context_data(self, **kwargs):
+        context = super(CarDeleteView, self).get_context_data(**kwargs)
+        context['car'] = get_object_or_404(Car, pk=self.kwargs['pk'])
+
+
+
+
 
 @login_required
 def add_new_car(request):

@@ -1,25 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
 
 from car.forms.car_form import CarForm, CarProductionDetailForm
-from car.models import Car
+from car.models import Car, CarProductionDetail
 
-
-from car.services.db_services import get_all_car_obj_from_db, get_car_obj_filter_by_id
 
 # Create your views here.
 
 
 def home(request):
-    context = {
-        "title": "Car List",
-        "cars": Car.objects.all()
-    }
+    context = {"title": "Car List", "cars": Car.objects.all()}
     return render(request, "car-home.html", context)
 
 
@@ -38,21 +33,21 @@ class CarCreateView(LoginRequiredMixin, CreateView):
     model = Car
     form_class = CarForm
     template_name = "car-form.html"
-    success_url = '/cars/'
+    success_url = "/cars/"
 
     def get_context_data(self, **kwargs):
         context = super(CarCreateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['car'] = CarForm(self.request.POST)
-            context['carproductiondetail'] = CarProductionDetailForm(self.request.POST)
+            context["car"] = CarForm(self.request.POST)
+            context["carproductiondetail"] = CarProductionDetailForm(self.request.POST)
         else:
-            context['car'] = CarForm()
-            context['carproductiondetail'] = CarProductionDetailForm()
+            context["car"] = CarForm()
+            context["carproductiondetail"] = CarProductionDetailForm()
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        carproductiondetail = context['carproductiondetail']
+        carproductiondetail = context["carproductiondetail"]
         if carproductiondetail.is_valid() and form.is_valid():
             f = form.save()
             shelf = carproductiondetail.save(commit=False)
@@ -65,21 +60,25 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
     model = Car
     form_class = CarForm
     template_name = "car-form.html"
-    success_url = '/cars/'
+    success_url = "/cars/"
 
     def get_context_data(self, **kwargs):
         context = super(CarUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['car'] = CarForm(self.request.POST)
-            context['carproductiondetail'] = CarProductionDetailForm(self.request.POST)
+            context["car"] = CarForm(self.request.POST)
+            context["carproductiondetail"] = CarProductionDetailForm(self.request.POST)
         else:
-            context['car'] = CarForm(instance=get_object_or_404(Car, pk=self.kwargs['pk']))
-            context['carproductiondetail'] = CarProductionDetailForm(instance=get_object_or_404(Car, pk=self.kwargs['pk']).detail)
+            context["car"] = CarForm(
+                instance=get_object_or_404(Car, pk=self.kwargs["pk"])
+            )
+            context["carproductiondetail"] = CarProductionDetailForm(
+                instance=get_object_or_404(Car, pk=self.kwargs["pk"]).detail
+            )
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        carproductiondetail = context['carproductiondetail']
+        carproductiondetail = context["carproductiondetail"]
         if carproductiondetail.is_valid() and form.is_valid():
             f = form.save()
             shelf = carproductiondetail.save(commit=False)
@@ -91,12 +90,19 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
 class CarDeleteView(LoginRequiredMixin, DeleteView):
     model = Car
     template_name = "car-delete_confirm.html"
-    success_url = '/cars/'
+    success_url = "/cars/"
 
     def get_context_data(self, **kwargs):
         context = super(CarDeleteView, self).get_context_data(**kwargs)
-        context['car'] = get_object_or_404(Car, pk=self.kwargs['pk'])
+        context["car"] = get_object_or_404(Car, pk=self.kwargs["pk"])
 
+        context["carproductiondetail"] = get_object_or_404(Car, pk=self.kwargs["pk"]).detail
+
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        if form.is_valid():
 
 
 

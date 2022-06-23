@@ -5,10 +5,10 @@ from django.db import models
 
 
 class CarProductionDetail(models.Model):
-    company = models.CharField(null=True, blank=True, max_length=250)
-    car_model_name = models.CharField(null=True, blank=True, max_length=250)
-    production_year = models.IntegerField(null=True, blank=True)
-    vin = models.CharField(null=True, blank=True, max_length=17)
+    company = models.CharField(max_length=250)
+    car_model_name = models.CharField(max_length=250)
+    production_year = models.IntegerField()
+    vin = models.CharField(max_length=17)
 
     def __str__(self) -> str:
         return f"{self.company} {self.car_model_name} ({self.production_year})"
@@ -19,13 +19,9 @@ class Car(models.Model):
 
     name = models.CharField(max_length=120, unique=True)
     # optional fields
-    description = models.CharField(null=True, blank=True, max_length=250)
-    type_of_fuel = models.CharField(
-        max_length=2, choices=fuel_choices, null=True, blank=True
-    )
-    detail = models.OneToOneField(
-        CarProductionDetail, on_delete=models.CASCADE, null=True, blank=True
-    )
+    description = models.CharField(max_length=250)
+    type_of_fuel = models.CharField(max_length=2, choices=fuel_choices)
+    detail = models.ForeignKey(CarProductionDetail, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name}"

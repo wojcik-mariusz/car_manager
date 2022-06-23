@@ -88,12 +88,12 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class CarDeleteView(LoginRequiredMixin, DeleteView):
-    model = Car
+    model = CarProductionDetail
     template_name = "car-delete_confirm.html"
     success_url = "/cars/"
 
     def get_context_data(self, **kwargs):
-        context = super(CarDeleteView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["car"] = get_object_or_404(Car, pk=self.kwargs["pk"])
 
         context["carproductiondetail"] = get_object_or_404(Car, pk=self.kwargs["pk"]).detail
@@ -102,7 +102,7 @@ class CarDeleteView(LoginRequiredMixin, DeleteView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        if form.is_valid():
+        return super(CarDeleteView, self).form_valid(context)
 
 
 

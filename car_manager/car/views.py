@@ -32,7 +32,7 @@ class CarCreateView(CreateView, LoginRequiredMixin):
     car_prod_det_form = CarProductionDetailForm
     fields = "__all__"
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         car_form = self.car_form(request.POST)
         car_prod_det_form = self.car_prod_det_form(request.POST)
 
@@ -43,15 +43,15 @@ class CarCreateView(CreateView, LoginRequiredMixin):
             car.detail = car_details
             car.save()
             return redirect("cars-list")
-        return self.form_invalid(**kwargs)
+        return self.form_invalid()
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self):
         context = super().get_context_data()
         context["car_form"] = self.car_form
         context["car_prod_det_form"] = self.car_prod_det_form
         return context
 
-    def form_invalid(self, **kwargs):
+    def form_invalid(self):
         return JsonResponse({"success": False})
 
 

@@ -1,5 +1,8 @@
 /notes
 /car_manager/migrations/0*
+*/car/migrations/0*
+*/refueling/migrations/0*
+*/users/migrations/0*
 *idea
 # Byte-compiled / optimized / DLL files
 __pycache__/

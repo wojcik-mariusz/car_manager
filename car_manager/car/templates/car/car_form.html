@@ -7,8 +7,8 @@
 
 <form method="post">
     {% csrf_token %}
-    {{ car.as_p }}
-    {{ carproductiondetail.as_p }}
+    {{ car_form.as_p }}
+    {{ car_prod_det_form.as_p }}
     <button type="submit">Add Car</button>
 </form>
 

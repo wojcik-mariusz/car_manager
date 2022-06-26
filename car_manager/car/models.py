@@ -22,6 +22,7 @@ class Car(models.Model):
     description = models.CharField(max_length=250)
     type_of_fuel = models.CharField(max_length=2, choices=fuel_choices)
     detail = models.ForeignKey(CarProductionDetail, on_delete=models.CASCADE)
+    user_name = models.CharField(max_length=120)
 
     def __str__(self):
         return f"{self.name}"

@@ -26,7 +26,7 @@ class CarDetailView(DetailView):
     template_name = "car_detail.html"
 
 
-class CarCreateView(LoginRequiredMixin, CreateView):
+class CarCreateView(CreateView, LoginRequiredMixin):
     model = Car
     car_form = CarForm
     car_prod_det_form = CarProductionDetailForm

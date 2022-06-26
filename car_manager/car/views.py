@@ -28,29 +28,31 @@ class CarDetailView(DetailView):
 
 class CarCreateView(LoginRequiredMixin, CreateView):
     model = Car
-    form_class = CarForm
-    template_name = "car-form.html"
-    success_url = "/cars/"
+    car_form = CarForm
+    car_prod_det_form = CarProductionDetailForm
+    fields = "__all__"
+
+    def post(self, request, *args, **kwargs):
+        car_form = self.car_form(request.POST)
+        car_prod_det_form = self.car_prod_det_form(request.POST)
+
+        if all([car_form.is_valid(), car_prod_det_form.is_valid()]):
+            car_details = car_prod_det_form.save(commit=False)
+            car_details.save()
+            car = car_form.save(commit=False)
+            car.detail = car_details
+            car.save()
+            return redirect("cars-list")
+        return self.form_invalid(**kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(CarCreateView, self).get_context_data(**kwargs)
-        if self.request.POST:
-            context["car"] = CarForm(self.request.POST)
-            context["carproductiondetail"] = CarProductionDetailForm(self.request.POST)
-        else:
-            context["car"] = CarForm()
-            context["carproductiondetail"] = CarProductionDetailForm()
+        context = super().get_context_data()
+        context["car_form"] = self.car_form
+        context["car_prod_det_form"] = self.car_prod_det_form
         return context
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        carproductiondetail = context["carproductiondetail"]
-        if carproductiondetail.is_valid() and form.is_valid():
-            f = form.save()
-            shelf = carproductiondetail.save(commit=False)
-            shelf.car = f
-            shelf.save()
-        return super().form_valid(form)
+    def form_invalid(self, **kwargs):
+        return JsonResponse({"success": False})
 
 
 class CarUpdateView(LoginRequiredMixin, UpdateView):

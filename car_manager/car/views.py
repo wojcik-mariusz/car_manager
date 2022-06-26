@@ -40,6 +40,7 @@ class CarCreateView(CreateView, LoginRequiredMixin):
             car_details = car_prod_det_form.save(commit=False)
             car_details.save()
             car = car_form.save(commit=False)
+            car.user_name = request.user.username
             car.detail = car_details
             car.save()
             return redirect("cars-list")

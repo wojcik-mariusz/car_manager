@@ -10,23 +10,20 @@ from car.forms.car_form import CarForm, CarProductionDetailForm
 from car.models import Car, CarProductionDetail
 
 
-# Create your views here.
-
-
 def home(request):
     context = {"title": "Car List", "cars": Car.objects.all()}
-    return render(request, "car-home.html", context)
+    return render(request, "car_list.html", context)
 
 
 class CarListView(ListView):
     model = Car
-    template_name = "car-home.html"
+    template_name = "car_list.html"
     context_object_name = "cars"
 
 
 class CarDetailView(DetailView):
     model = Car
-    template_name = "car-detail.html"
+    template_name = "car_detail.html"
 
 
 class CarCreateView(LoginRequiredMixin, CreateView):
@@ -89,22 +86,21 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
 
 class CarDeleteView(LoginRequiredMixin, DeleteView):
     model = CarProductionDetail
-    template_name = "car-delete_confirm.html"
     success_url = "/cars/"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["car"] = get_object_or_404(Car, pk=self.kwargs["pk"])
 
-        context["carproductiondetail"] = get_object_or_404(Car, pk=self.kwargs["pk"]).detail
+        context["carproductiondetail"] = get_object_or_404(
+            Car, pk=self.kwargs["pk"]
+        ).detail
 
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         return super(CarDeleteView, self).form_valid(context)
-
-
 
 
 @login_required
@@ -137,9 +133,9 @@ def edit_car(request, pk):
         if all((car_form.is_valid(), car_details.is_valid())):
             car_form.save()
             car_details.save()
-            return redirect("cars_home")
+            return redirect("cars-list")
 
-        return redirect("cars_home")
+        return redirect("cars-list")
 
     else:
         car = get_object_or_404(Car, pk=id)

@@ -19,6 +19,9 @@ class CarListView(ListView):
     template_name = "car_list.html"
     context_object_name = "cars"
 
+    def get_queryset(self):
+        return Car.objects.filter(user_name=self.request.user.username)
+
 
 class CarDetailView(DetailView):
     model = Car
@@ -30,6 +33,7 @@ class CarCreateView(CreateView, LoginRequiredMixin):
     car_form = CarForm
     car_prod_det_form = CarProductionDetailForm
     fields = "__all__"
+    template_name = "car/car-form.html"
 
     def post(self, request, *args, **kwargs):
         car_form = self.car_form(request.POST)

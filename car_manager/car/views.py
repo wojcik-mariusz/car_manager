@@ -25,7 +25,10 @@ class CarListView(ListView):
 
 class CarDetailView(DetailView):
     model = Car
-    template_name = "car_detail.html"
+    template_name = "car-detail.html"
+
+    def get_queryset(self):
+        return Car.objects.filter(user_name=self.request.user.username)
 
 
 class CarCreateView(CreateView, LoginRequiredMixin):
@@ -91,8 +94,6 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         car = self.get_object()
-        print(f"car user name: {car.user_name}")
-        print(f" request user name: {self.request.user.username}")
         return self.request.user.username == car.user_name
 
 

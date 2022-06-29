@@ -100,6 +100,7 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class CarDeleteView(LoginRequiredMixin, DeleteView):
     model = CarProductionDetail
     success_url = "/cars/"
+    template_name = "car/carproductiondetail_confirm_delete.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

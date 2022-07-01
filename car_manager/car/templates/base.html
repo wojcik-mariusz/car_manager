@@ -21,40 +21,36 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'register' %}">Register</a>
-            </li>
-            {% if not user.is_authenticated %}
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">Profile</a>
-                </li>
-            {% endif %}
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'cars-list' %}">Car Home</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="{% url 'all-refuelings' %}">Refuelings</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'car-add' %}">Add Car</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
+                Car
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="{% url 'cars-list' %}">List</a></li>
+                <li><a class="dropdown-item" href="{% url 'car-add' %}">Add new car</a></li>
                 <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                User
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                {% if user.is_authenticated %}
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+
+                {% else %}
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'login' %}}">Login</a></li>
+                {% endif %}
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
               </ul>
             </li>

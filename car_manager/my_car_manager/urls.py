@@ -38,5 +38,5 @@ urlpatterns = [
         name="logout",
     ),
     path("profile/", user_views.profile, name="profile"),
-    path("refueling/", include("refueling.urls"), name="refueling-home"),
+    path("rf/", include("refueling.urls"), name="refueling-home"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -8,7 +8,6 @@ class RefuelingForm(ModelForm):
         model = Refueling
         fields = [
             "mileage",
-            "date_refueling",
             "price",
             "cost_per_litr",
             "tanked_to_max_level",

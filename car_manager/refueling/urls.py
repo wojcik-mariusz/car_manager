@@ -16,9 +16,10 @@ Including another URLconf
 
 from django.urls import path
 
-from .views import RefuelingListView, RefuelingCreateView
+from .views import RefuelingListView, RefuelingCreateView, RefuelingUpdateView
 
 urlpatterns = [
     path("", RefuelingListView.as_view(), name="all-refuelings"),
     path("new/<int:pk>/", RefuelingCreateView.as_view(), name="new-refueling"),
+    path("update/<int:pk>/", RefuelingUpdateView.as_view(), name="refueling-update"),
 ]

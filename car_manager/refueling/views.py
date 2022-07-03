@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 
@@ -51,28 +51,33 @@ class RefuelingUpdateView(UpdateView):
     model = Refueling
     form_class = RefuelingForm
     template_name = "refueling-form.html"
-    success_url = reverse_lazy('all-refuelings')
+    success_url = reverse_lazy("all-refuelings")
 
     def get_context_data(self, **kwargs):
         context = super(RefuelingUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context["refueling_form"] = RefuelingForm(self.request.POST, instance=get_object_or_404(
-                    Refueling, pk=self.kwargs["pk"]))
+            context["refueling_form"] = RefuelingForm(
+                self.request.POST,
+                instance=get_object_or_404(Refueling, pk=self.kwargs["pk"]),
+            )
         else:
             context["refueling_form"] = RefuelingForm(
-                instance=get_object_or_404(
-                    Refueling, pk=self.kwargs["pk"]
-                )
+                instance=get_object_or_404(Refueling, pk=self.kwargs["pk"])
             )
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         refueling = context["refueling_form"]
-        refueling.car = get_object_or_404(
-                    Refueling, pk=self.kwargs["pk"]).car
+        refueling.car = get_object_or_404(Refueling, pk=self.kwargs["pk"]).car
         refueling.save()
         return super().form_valid(form)
 
     def form_invalid(self, form):
         return JsonResponse({"success": False})
+
+
+class RefuelingDeleteView(DeleteView):
+    model = Refueling
+    template_name = "refueling_confirm_delete.html"
+    success_url = reverse_lazy("all-refuelings")

@@ -10,13 +10,14 @@ from refueling.forms.refueling_form import RefuelingForm
 
 from car.models import Car
 
-# Create your views here.
-
 
 class RefuelingListView(ListView):
     model = Refueling
     template_name = "refuelings.html"
     context_object_name = "refuelings"
+
+    def get_queryset(self):
+        return Refueling.objects.filter(car__user_name=self.request.user.username)
 
 
 # TODO mixins, login, userpassestest

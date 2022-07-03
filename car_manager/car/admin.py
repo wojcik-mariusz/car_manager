@@ -7,7 +7,7 @@ from car.models import Car, CarProductionDetail
 
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ["name", "description", "type_of_fuel"]
+    list_display = ["name", "description", "type_of_fuel", "user_name"]
 
 
 admin.site.register(CarProductionDetail)

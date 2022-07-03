@@ -4,14 +4,14 @@ from django.views.generic.list import ListView
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from refueling.models import Refueling
 from refueling.forms.refueling_form import RefuelingForm
 
 from car.models import Car
 
 
-class RefuelingListView(ListView):
+class RefuelingListView(LoginRequiredMixin, ListView):
     model = Refueling
     template_name = "refuelings.html"
     context_object_name = "refuelings"
@@ -20,8 +20,7 @@ class RefuelingListView(ListView):
         return Refueling.objects.filter(car__user_name=self.request.user.username)
 
 
-# TODO mixins, login, userpassestest
-class RefuelingCreateView(CreateView):
+class RefuelingCreateView(LoginRequiredMixin, CreateView):
     model = Refueling
     refueling_form = RefuelingForm
     fields = "__all__"
@@ -40,15 +39,14 @@ class RefuelingCreateView(CreateView):
         context = super(RefuelingCreateView, self).get_context_data(**kwargs)
         context["refueling_form"] = self.refueling_form
         context["car"] = get_object_or_404(Car, pk=self.kwargs["pk"])
+        context["new_object"] = True
         return context
 
     def form_invalid(self, form):
         return JsonResponse({"success": False})
 
 
-# TODO mixins, login, userpassestest
-# TODO submit button should be named as 'apply changes'
-class RefuelingUpdateView(UpdateView):
+class RefuelingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Refueling
     form_class = RefuelingForm
     template_name = "refueling-form.html"
@@ -61,6 +59,7 @@ class RefuelingUpdateView(UpdateView):
                 self.request.POST,
                 instance=get_object_or_404(Refueling, pk=self.kwargs["pk"]),
             )
+            context["new_object"] = False
         else:
             context["refueling_form"] = RefuelingForm(
                 instance=get_object_or_404(Refueling, pk=self.kwargs["pk"])
@@ -77,8 +76,16 @@ class RefuelingUpdateView(UpdateView):
     def form_invalid(self, form):
         return JsonResponse({"success": False})
 
+    def test_func(self):
+        refueling = self.get_object()
+        return self.request.user.username == refueling.car.user_name
 
-class RefuelingDeleteView(DeleteView):
+
+class RefuelingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Refueling
     template_name = "refueling_confirm_delete.html"
     success_url = reverse_lazy("all-refuelings")
+
+    def test_func(self):
+        refueling = self.get_object()
+        return self.request.user.username == refueling.car.user_name

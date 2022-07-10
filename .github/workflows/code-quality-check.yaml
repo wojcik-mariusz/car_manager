@@ -1,0 +1,24 @@
+name: Run Python code and docstyle linters
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Python libs used to check code quality.
+      - run: python -m pip install -r requirements-dev.txt
+
+      - name: Lint Python code
+      - run: | 
+          python -m mypy ./car_manager
+          python -m flake8 ./car_manager
+          python -m pylint ./car_manager
+          python -m bandit ./car_manager
+          python -m pydocstyle ./car_manager
+          
+
+

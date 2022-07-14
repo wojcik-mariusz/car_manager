@@ -3,7 +3,7 @@ name: Run Python code and docstyle linters
 on:
   push:
     branches:
-      - '*'
+      - '**'
 
 jobs:
   build:

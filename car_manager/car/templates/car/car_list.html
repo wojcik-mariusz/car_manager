@@ -7,9 +7,9 @@
     {% for car in cars %}
         <p>
             <div class="card" style="width: 18rem;">
-                <i class="fa-solid fa-car fa-2x"></i>
+
                 <div class="card-body">
-                    <h5 class="card-title">{{ car.name }}</h5>
+                    <h5 class="card-title"> <i class="fa-solid fa-car fa-1x"></i> {{ car.name }}</h5>
                     <p class="card-text">Description: {{car.description}}</p>
                     <p class="card-text">Fuel: {{car.type_of_fuel}}</p>
                     <p class="card-text">Company: {{car.detail.company}}</p>
@@ -18,6 +18,7 @@
                     <p class="card-text">VIN: {{car.detail.vin}}</p>
                     <a href="{% url 'edit-car' car.id %}" class="btn btn-primary">Edit</a>
                     <a href="{% url 'car-delete' car.id %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'all-refuelings' %}" class="btn btn-info">Refuelings</a>
                 </div>
             </div>
         </p>

@@ -72,7 +72,9 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super(CarUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
             context["car_form"] = CarForm(self.request.POST)
-            context["car_prod_det_form"] = CarProductionDetailForm(self.request.POST)
+            context["car_prod_det_form"] = CarProductionDetailForm(
+                self.request.POST
+            )
         else:
             context["car_form"] = CarForm(
                 instance=get_object_or_404(Car, pk=self.kwargs["pk"])

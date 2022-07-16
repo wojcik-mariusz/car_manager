@@ -18,7 +18,7 @@
                     <p class="card-text">VIN: {{car.detail.vin}}</p>
                     <a href="{% url 'edit-car' car.id %}" class="btn btn-primary">Edit</a>
                     <a href="{% url 'car-delete' car.id %}" class="btn btn-danger">Delete</a>
-                    <a href="{% url 'all-refuelings' %}" class="btn btn-info">Refuelings</a>
+                    <a href="{% url 'refueling-by-car' car.id %}" class="btn btn-info">Refuelings</a>
                 </div>
             </div>
         </p>

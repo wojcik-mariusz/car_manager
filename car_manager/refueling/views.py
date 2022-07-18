@@ -17,7 +17,21 @@ class RefuelingListView(LoginRequiredMixin, ListView):
     context_object_name = "refuelings"
 
     def get_queryset(self):
-        return Refueling.objects.filter(car__user_name=self.request.user.username)
+        return Refueling.objects.filter(
+            car__user_name=self.request.user.username
+        )
+
+
+class RefuelingListViewFilterByCar(LoginRequiredMixin, ListView):
+    model = Refueling
+    template_name = "refuelings-by-car.html"
+    context_object_name = "refuelings"
+
+    def get_queryset(self):
+        return Refueling.objects.filter(
+            car__user_name=self.request.user.username,
+            car__id=self.kwargs["pk"]
+        )
 
 
 class RefuelingCreateView(LoginRequiredMixin, CreateView):

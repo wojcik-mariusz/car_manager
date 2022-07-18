@@ -7,21 +7,18 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Car</th>
       <th scope="col">Date</th>
       <th scope="col">Milleage</th>
       <th scope="col">Price</th>
       <th scope="col">Cost per litr</th>
       <th scope="col">Full fuel tank</th>
       <th scope="col">Action</th>
-
     </tr>
   </thead>
   <tbody>
     {% for refuel in refuelings %}
         <tr>
-            <th scope="row">{{ refuel.car }}</th>
-            <td>{{ refuel.date_refueling }}</td>
+            <th scope="row">{{ refuel.date_refueling }}</th>
             <td>{{ refuel.mileage }}</td>
             <td>{{ refuel.price }}</td>
             <td>{{ refuel.cost_per_litr }}</td>

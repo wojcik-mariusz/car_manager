@@ -22,7 +22,7 @@ class RefuelingListView(LoginRequiredMixin, ListView):
 
 class RefuelingListViewFilterByCar(LoginRequiredMixin, ListView):
     model = Refueling
-    template_name = "refuelings.html"
+    template_name = "refuelings-by-car.html"
     context_object_name = "refuelings"
 
     def get_queryset(self):

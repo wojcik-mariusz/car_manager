@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} Log in {% endblock %}
+
+{% block body %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Milleage</th>
+      <th scope="col">Price</th>
+      <th scope="col">Cost per litr</th>
+      <th scope="col">Full fuel tank</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for refuel in refuelings %}
+        <tr>
+            <th scope="row">{{ refuel.date_refueling }}</th>
+            <td>{{ refuel.mileage }}</td>
+            <td>{{ refuel.price }}</td>
+            <td>{{ refuel.cost_per_litr }}</td>
+            <td>{{ refuel.tanked_to_max_level }}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

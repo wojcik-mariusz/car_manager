@@ -38,5 +38,44 @@ urlpatterns = [
         name="logout",
     ),
     path("profile/", user_views.profile, name="profile"),
+    path(
+        "change-password/",
+        auth_views.PasswordChangeView.as_view(
+            template_name="registration/change_password.html",
+        ),
+        name="change_password",
+    ),
+    path(
+        "password-change-done/",
+        auth_views.PasswordChangeDoneView.as_view(
+            template_name="registration/password_change_done-confirm.html"
+        ),
+        name="password_change_done",
+    ),
+    path(
+        "password-reset/",
+        auth_views.PasswordResetView.as_view(template_name="registration/password_reset.html"),
+    ),
+    path(
+        "password-reset-sent/",
+        auth_views.PasswordResetDoneView.as_view(
+            template_name="registration/password_reset_done_info.html"
+        ),
+        name="password_reset_done",
+    ),
+    path(
+        "password-reset-confirm-form/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name="registration/password_reset_confirm_form.html"
+        ),
+        name="password_reset_confirm",
+    ),
+    path(
+        "password-reset-complete-confirm/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="registration/password_reset_complete_confirm_info.html"
+        ),
+        name="password_reset_complete",
+    ),
     path("rf/", include("refueling.urls"), name="refueling-home"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

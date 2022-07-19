@@ -39,6 +39,20 @@ urlpatterns = [
     ),
     path("profile/", user_views.profile, name="profile"),
     path(
+        "change-password/",
+        auth_views.PasswordChangeView.as_view(
+            template_name="registration/change_password.html",
+        ),
+        name="change_password",
+    ),
+    path(
+        "password-change-done/",
+        auth_views.PasswordChangeDoneView.as_view(
+            template_name="registration/password_change_done-confirm.html"
+        ),
+        name="password_change_done",
+    ),
+    path(
         "password-reset/",
         auth_views.PasswordResetView.as_view(template_name="registration/password_reset.html"),
     ),

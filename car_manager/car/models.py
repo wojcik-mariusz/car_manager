@@ -4,6 +4,9 @@ from django.db import models
 
 
 class CarProductionDetail(models.Model):
+    """
+        Stores a single car details.
+    """
     company = models.CharField(max_length=250)
     car_model_name = models.CharField(max_length=250)
     production_year = models.IntegerField()
@@ -14,6 +17,9 @@ class CarProductionDetail(models.Model):
 
 
 class Car(models.Model):
+    """
+        Stores a single car, related to :model:`detail.CarProductionDetail`
+    """
     fuel_choices: List[str] = [("1", "Petrol"), ("2", "Gasoline")]
 
     name = models.CharField(max_length=120, unique=True)

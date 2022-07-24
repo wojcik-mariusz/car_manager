@@ -4,34 +4,88 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.db.models import QuerySet
+
+from typing import Union, List
 
 from car.forms.car_form import CarForm, CarProductionDetailForm
 from car.models import Car, CarProductionDetail
 
 
 def home(request):
-    context = {"title": "Car List", "cars": Car.objects.all()}
+    """
+        Display list of all Car models in :model:`car.Car`.
+
+        **Context**
+
+        ``title``
+            Webpage title.
+        ``cars``
+            Queryset of :model:`car.Car`.
+
+        **Template:**
+
+        :template:`car_manager/car/templates/car/car_list.html`
+    """
+    context: dict = {"title": "Car List", "cars": Car.objects.all()}
     return render(request, "car_list.html", context)
 
 
 class CarListView(ListView):
+    """
+        Render list of all Car models in :model:`car.Car`.
+
+        **Template:**
+
+        :template:`car_manager/car/templates/car/car_list.html`
+    """
     model = Car
     template_name = "car_list.html"
     context_object_name = "cars"
 
-    def get_queryset(self):
+    def get_queryset(self) -> Union[QuerySet, List[Car]]:
+        """
+        Return the list of items for this view.
+
+        The return value must be an iterable and may be an instance of
+        `QuerySet` in which case `QuerySet` specific behavior will be enabled.
+
+        Returns QuerySet of :model:'car.Car'
+        when car is created by requested user
+        """
         return Car.objects.filter(user_name=self.request.user.username)
 
 
 class CarDetailView(DetailView):
+    """
+        Render a "detail" view of :model:'car.Car' object.
+
+        **Template:**
+
+        :template: 'car_manager/car/templates/car-detail.html'
+    """
     model = Car
     template_name = "car-detail.html"
 
-    def get_queryset(self):
+    def get_queryset(self) -> Union[QuerySet, List[Car]]:
+        """
+            Return the list of items for this view.
+
+            The return value must be an iterable and may be an instance of
+            `QuerySet` in which case `QuerySet` specific behavior
+            will be enabled.
+
+            Returns QuerySet of :model:'car.Car'
+            when car is created by requested user
+        """
         return Car.objects.filter(user_name=self.request.user.username)
 
 
 class CarCreateView(CreateView, LoginRequiredMixin):
+    """
+    View to create :model:'car.Car' and :model:'car.CarProductionDetail'
+    instances. User must be logged.
+    """
     model = Car
     car_form = CarForm
     car_prod_det_form = CarProductionDetailForm
@@ -39,6 +93,10 @@ class CarCreateView(CreateView, LoginRequiredMixin):
     template_name = "car/car-form.html"
 
     def post(self, request, *args, **kwargs):
+        """
+        Handle POST requests: instantiate a form instance with the passed
+        POST variables and then check if it's valid.
+        """
         car_form = self.car_form(request.POST)
         car_prod_det_form = self.car_prod_det_form(request.POST)
 
@@ -53,6 +111,7 @@ class CarCreateView(CreateView, LoginRequiredMixin):
         return self.form_invalid(car_form)
 
     def get_context_data(self):
+        """Insert the single object into the context dict."""
         context = super().get_context_data()
         context["car_form"] = self.car_form
         context["car_prod_det_form"] = self.car_prod_det_form
@@ -69,6 +128,7 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = "/cars/"
 
     def get_context_data(self, **kwargs):
+        """Insert the single object into the context dict."""
         context = super(CarUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
             context["car_form"] = CarForm(self.request.POST)
@@ -85,6 +145,7 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        """If the form is valid, save the associated model."""
         context = self.get_context_data()
         carproductiondetail = context["car_prod_det_form"]
         if carproductiondetail.is_valid() and form.is_valid():
@@ -95,6 +156,10 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def test_func(self):
+        """
+            Deny a request with a permission error if the test_func() method returns
+            False.
+        """
         car = self.get_object()
         return self.request.user.username == car.user_name
 

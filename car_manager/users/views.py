@@ -8,6 +8,11 @@ from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 
 
 def register(request):
+    """
+    View for creating an user with a response rendered by a template.
+    :param request:
+    :return: Template with form to create user.
+    """
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -27,6 +32,10 @@ def home(request):
 
 @login_required
 def profile(request):
+    """
+    View for creating or editing an user profile, with a response rendered by a template.
+    :param request:
+    """
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(

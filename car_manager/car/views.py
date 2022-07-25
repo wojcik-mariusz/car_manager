@@ -51,7 +51,7 @@ class CarListView(ListView):
         `QuerySet` in which case `QuerySet` specific behavior will be enabled.
 
         Returns QuerySet of :model:'car.Car'
-        when car is created by requested user
+        when car is created by requested user.
         """
         return Car.objects.filter(user_name=self.request.user.username)
 
@@ -85,6 +85,10 @@ class CarCreateView(CreateView, LoginRequiredMixin):
     """
     View to create :model:'car.Car' and :model:'car.CarProductionDetail'
     instances. User must be logged.
+
+    **Template:**
+
+    :template:'car_manager/car/templates/car-form.html'
     """
     model = Car
     car_form = CarForm
@@ -110,7 +114,7 @@ class CarCreateView(CreateView, LoginRequiredMixin):
             return redirect("cars-list")
         return self.form_invalid(car_form)
 
-    def get_context_data(self):
+    def get_context_data(self) -> dict:
         """Insert the single object into the context dict."""
         context = super().get_context_data()
         context["car_form"] = self.car_form
@@ -118,16 +122,24 @@ class CarCreateView(CreateView, LoginRequiredMixin):
         return context
 
     def form_invalid(self, form):
+        """If the form is invalid, render the invalid form."""
         return JsonResponse({"success": False})
 
 
 class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """
+    View for updating an object, with a response rendered by a template.
+
+    **Template:**
+
+    :template: 'car_manager/car/templates/car/car-form.html'
+    """
     model = Car
     form_class = CarForm
     template_name = "car/car-form.html"
     success_url = "/cars/"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         """Insert the single object into the context dict."""
         context = super(CarUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
@@ -155,7 +167,7 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             shelf.save()
         return super().form_valid(form)
 
-    def test_func(self):
+    def test_func(self) -> bool:
         """
             Deny a request with a permission error if the test_func() method returns
             False.
@@ -165,11 +177,20 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class CarDeleteView(LoginRequiredMixin, DeleteView):
+    """
+        View for deleting an object retrieved with self.get_object(), with a
+        response rendered by a template.
+
+        **Template:**
+
+        :template: 'car_manager/car/templates/car/carproductiondetail_confirm_delete.html'
+    """
     model = CarProductionDetail
     success_url = "/cars/"
     template_name = "car/carproductiondetail_confirm_delete.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
+        """Insert the single object into the context dict."""
         context = super().get_context_data(**kwargs)
         context["car"] = get_object_or_404(Car, pk=self.kwargs["pk"])
 
@@ -180,5 +201,6 @@ class CarDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
     def form_valid(self, form):
+        """If the form is valid, save the associated model."""
         context = self.get_context_data()
         return super(CarDeleteView, self).form_valid(context)

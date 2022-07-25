@@ -55,7 +55,7 @@ class RefuelingListViewFilterByCar(LoginRequiredMixin, ListView):
     template_name = "refuelings-by-car.html"
     context_object_name = "refuelings"
 
-    def get_queryset(self):
+    def get_queryset(self) -> Union[QuerySet, List[Refueling]]:
         """
             Return the list of items for this view.
 
@@ -97,7 +97,7 @@ class RefuelingCreateView(LoginRequiredMixin, CreateView):
             refueling.save()
             return redirect("all-refuelings")
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         """Insert the single object into the context dict."""
         context = super(RefuelingCreateView, self).get_context_data(**kwargs)
         context["refueling_form"] = self.refueling_form
@@ -122,7 +122,7 @@ class RefuelingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = "refueling-form.html"
     success_url = reverse_lazy("all-refuelings")
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Union[QuerySet, List[Refueling]]:
         """Insert the single object into the context dict."""
         context = super(RefuelingUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
@@ -149,7 +149,7 @@ class RefuelingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         """If the form is invalid, render the invalid form."""
         return JsonResponse({"success": False})
 
-    def test_func(self):
+    def test_func(self) -> bool:
         """
             Deny a request with a permission error if the test_func() method returns
             False.
@@ -171,7 +171,7 @@ class RefuelingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = "refueling_confirm_delete.html"
     success_url = reverse_lazy("all-refuelings")
 
-    def test_func(self):
+    def test_func(self) -> bool:
         """
             Deny a request with a permission error if the test_func() method returns
             False.

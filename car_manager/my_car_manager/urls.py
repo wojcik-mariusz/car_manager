@@ -23,6 +23,7 @@ from users import views as user_views
 
 
 urlpatterns = [
+    path("admin/doc/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
     path("cars/", include("car.urls"), name="car-home"),
     path("register/", user_views.register, name="register"),

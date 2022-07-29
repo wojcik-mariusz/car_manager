@@ -13,8 +13,10 @@ from car.models import Car, CarProductionDetail
 
 
 def home(request):
-    """
-        Display list of all Car models in :model:`car.Car`.
+    """ Render view of all saved cars.
+
+        Display list of all saved in db Car models in :model:`car.Car`.
+        Not used in project, is here just for show function based view.
 
         **Context**
 
@@ -32,8 +34,9 @@ def home(request):
 
 
 class CarListView(ListView):
-    """
-        Render list of all Car models in :model:`car.Car`.
+    """ Render view of all saved cars by logged user.
+        Render list of all Car models in :model:`car.Car`. If user is not
+        logged in, render empty list.
 
         **Template:**
 
@@ -44,8 +47,7 @@ class CarListView(ListView):
     context_object_name = "cars"
 
     def get_queryset(self) -> Union[QuerySet, List[Car]]:
-        """
-        Return the list of items for this view.
+        """ Return the list of items for this view.
 
         The return value must be an iterable and may be an instance of
         `QuerySet` in which case `QuerySet` specific behavior will be enabled.
@@ -57,8 +59,7 @@ class CarListView(ListView):
 
 
 class CarDetailView(DetailView):
-    """
-        Render a "detail" view of :model:'car.Car' object.
+    """ Render a "detail" view of :model:'car.Car' object.
 
         **Template:**
 
@@ -68,21 +69,21 @@ class CarDetailView(DetailView):
     template_name = "car-detail.html"
 
     def get_queryset(self) -> Union[QuerySet, List[Car]]:
-        """
-            Return the list of items for this view.
+        """ Return the list of items for this view.
 
             The return value must be an iterable and may be an instance of
             `QuerySet` in which case `QuerySet` specific behavior
             will be enabled.
 
             Returns QuerySet of :model:'car.Car'
-            when car is created by requested user
+            when car is created by requested user.
         """
         return Car.objects.filter(user_name=self.request.user.username)
 
 
 class CarCreateView(CreateView, LoginRequiredMixin):
-    """
+    """ Render a view to create new instances of :model:car.Car
+
     View to create :model:'car.Car' and :model:'car.CarProductionDetail'
     instances. User must be logged.
 
@@ -97,7 +98,8 @@ class CarCreateView(CreateView, LoginRequiredMixin):
     template_name = "car/car-form.html"
 
     def post(self, request, *args, **kwargs):
-        """
+        """ Function to save class instances to db.
+
         Handle POST requests: instantiate a form instance with the passed
         POST variables and then check if it's valid.
         """
@@ -127,8 +129,9 @@ class CarCreateView(CreateView, LoginRequiredMixin):
 
 
 class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """
-    View for updating an object, with a response rendered by a template.
+    """ View for updating an object, with a response rendered by a template.
+
+    Render view to update exists instances of Car model.
 
     **Template:**
 
@@ -168,7 +171,8 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def test_func(self) -> bool:
-        """
+        """ Test is car was created by requested user.
+
             Deny a request with a permission error if the test_func() method returns
             False.
         """
@@ -177,9 +181,9 @@ class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class CarDeleteView(LoginRequiredMixin, DeleteView):
-    """
-        View for deleting an object retrieved with self.get_object(), with a
-        response rendered by a template.
+    """ View for deleting an object.
+
+        With a response rendered by a confirmation delete template.
 
         **Template:**
 

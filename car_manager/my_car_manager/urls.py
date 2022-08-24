@@ -20,9 +20,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from users import views as user_views
+from car import views as car_views
 
 
 urlpatterns = [
+    path("", car_views.home, name="welcome=page"),
     path("admin/doc/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
     path("cars/", include("car.urls"), name="car-home"),

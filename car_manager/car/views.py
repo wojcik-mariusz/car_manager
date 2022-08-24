@@ -14,21 +14,19 @@ from car.models import Car, CarProductionDetail
 
 def home(request):
     """
-        Display list of all Car models in :model:`car.Car`.
+        Display welcome page.
 
         **Context**
 
         ``title``
             Webpage title.
-        ``cars``
-            Queryset of :model:`car.Car`.
 
         **Template:**
 
-        :template:`car_manager/car/templates/car/car_list.html`
+        :template:`car_manager/car/templates/welcome-page.html`
     """
-    context: dict = {"title": "Car List", "cars": Car.objects.all()}
-    return render(request, "car_list.html", context)
+    context: dict = {"title": "Welcome", "cars": Car.objects.all()}
+    return render(request, "welcome-page.html", context)
 
 
 class CarListView(ListView):

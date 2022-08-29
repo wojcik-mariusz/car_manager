@@ -9,6 +9,15 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+  migration:
+    build: .
+    command: bash -c "python ./car_manager/manage.py migrate"
+    volumes:
+      - .:/code
+    links:
+      - db
+    depends_on:
+      - db
   web:
     build: .
     command: python ./car_manager/manage.py runserver 0.0.0.0:8000
@@ -21,4 +30,4 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     depends_on:
-      - db
+      - migration

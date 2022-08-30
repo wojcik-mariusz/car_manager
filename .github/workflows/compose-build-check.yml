@@ -6,4 +6,7 @@ on:
       - '**'
 
 jobs:
-  run: docker-compose up -d
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker-compose up -d

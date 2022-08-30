@@ -9,4 +9,4 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: docker-compose up -d
+      - run: docker-compose.yml up -d

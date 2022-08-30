@@ -1,0 +1,9 @@
+name: Build dev env
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  run: docker-compose up -d

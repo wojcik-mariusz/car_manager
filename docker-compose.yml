@@ -9,20 +9,20 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-  migration:
-    build: .
-    command: bash -c "python ./car_manager/manage.py migrate"
-    volumes:
-      - .:/code
-    links:
-      - db
-    depends_on:
-      - db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   web:
     build: .
-    command: python ./car_manager/manage.py runserver 0.0.0.0:8000
+    command: >
+        sh -c "
+              python car_manager/manage.py makemigrations
+              python car_manager/manage.py migrate
+              python car_manager/manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/code
+      - .:/car_manager_django_app
     ports:
       - "8000:8000"
     environment:
@@ -30,4 +30,5 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     depends_on:
-      - migration
+      db:
+        condition: service_healthy

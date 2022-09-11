@@ -70,7 +70,15 @@ WSGI_APPLICATION = "my_car_manager.wsgi.application"
 # Database
 
 DATABASES = {
-    "default": {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
+    },
+    'sqlite': {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }

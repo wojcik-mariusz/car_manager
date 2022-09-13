@@ -4,12 +4,19 @@
 
 {% block body %}
 
-
-<form method="post">
-    {% csrf_token %}
-    {{ car_form.as_p }}
-    {{ car_prod_det_form.as_p }}
-    <button type="submit">Add Car</button>
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-4">
+            <form method="post">
+                {% csrf_token %}
+                {{ car_form.as_p }}
+                {{ car_prod_det_form.as_p }}
+                <button type="submit">Add Car</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
 
 {% endblock %}

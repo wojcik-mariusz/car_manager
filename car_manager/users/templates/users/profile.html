@@ -5,30 +5,44 @@
 
 {% block body %}
 
-<h2>Hello - {{ user.username }}</h2>
+<div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-6">
 
+                    <p>
+                        <div class="card p-2">
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Username</th>
-      <th scope="col">Email</th>
-      <th scope="col">Picture</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">{{ user.username }}</th>
-      <td>{{ user.email }}</td>
-      <td><img src="{{ user.profile.picture.url }}" width="100" height="100"></td>
-    </tr>
-  </tbody>
-</table>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <p>Profile info</p>
-    {{ user_form|crispy}}
-    {{ profile_form|crispy}}
-    <button class="btn btn-outline-info" type="submit">Apply changes</button>
-  </form>
+                            <div class="card-body shadow">
+                              <h5 class="card-title lead text-center fw-bold"> <i class="fa-regular fa-address-card"></i> Hello - {{ user.username }}</h5>
+                                <table class="table">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Username</th>
+                                  <th scope="col">Email</th>
+                                  <th scope="col">Picture</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <th scope="row">{{ user.username }}</th>
+                                  <td>{{ user.email }}</td>
+                                  <td><img src="{{ user.profile.picture.url }}" width="100" height="100"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                              <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <p>Profile info</p>
+                                {{ user_form|crispy}}
+                                {{ profile_form|crispy}}
+                                <button class="btn btn-primary m-2" type="submit">Apply changes</button>
+                              </form>
+                            </div>
+                        </div>
+                    </p>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
 {% endblock %}

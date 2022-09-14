@@ -4,11 +4,26 @@
 
 {% block body %}
 
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-4">
+            <div class="card p-2">
+                <div class="card-body shadow">
+                    <h5 class="card-title lead text-center fw-bold"> <i class="fa-solid fa-car fa-1x"></i>Add new car:</h5>
 
-<form method="post">
-    {% csrf_token %}
-    <h3>Are you sure to delete?</h3>
-    <button type="submit">Confirm delete</button>
-</form>
+                    <form method="post">
+                    {% csrf_token %}
+                    <h3>Are you sure to delete?</h3>
+                    <button class="btn btn-danger" type="submit">Confirm delete</button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
 
 {% endblock %}

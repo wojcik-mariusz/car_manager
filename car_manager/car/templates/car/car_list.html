@@ -16,12 +16,12 @@
 
                             <div class="card-body shadow">
                                 <h5 class="card-title lead text-center fw-bold"> <i class="fa-solid fa-car fa-1x"></i> {{ car.name }}</h5>
-                                <p class="card-text">Description: {{car.description}}</p>
-                                <p class="card-text">Fuel: {{car.type_of_fuel}}</p>
-                                <p class="card-text">Company: {{car.detail.company}}</p>
-                                <p class="card-text">Model: {{car.detail.car_model_name}}</p>
-                                <p class="card-text">Production year: {{car.detail.production_year}}</p>
-                                <p class="card-text">VIN: {{car.detail.vin}}</p>
+                                <p class="card-text"><b>Description:</b> {{car.description}}</p>
+                                <p class="card-text"><b>Fuel:</b> {{car.type_of_fuel}}</p>
+                                <p class="card-text"><b>Company:</b> {{car.detail.company}}</p>
+                                <p class="card-text"><b>Model:</b> {{car.detail.car_model_name}}</p>
+                                <p class="card-text"><b>Production year:</b> {{car.detail.production_year}}</p>
+                                <p class="card-text"><b>VIN:</b> {{car.detail.vin}}</p>
                                 <a href="{% url 'edit-car' car.id %}" class="btn btn-primary m-1 shadow-lg">Edit Car</a>
                                 <a href="{% url 'car-delete' car.id %}" class="btn btn-danger m-1 shadow-lg">Delete Car</a>
                                 <a href="{% url 'refueling-by-car' car.id %}" class="btn btn-info m-1 shadow-lg">Refuelings</a>

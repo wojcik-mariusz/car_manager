@@ -4,12 +4,27 @@
 
 {% block body %}
 
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-4">
+            <div class="card p-2">
+                <div class="card-body shadow">
+                    <h5 class="card-title lead text-center fw-bold"> <i class="fa-solid fa-car fa-1x"></i>Add new car:</h5>
 
-<form method="post">
-    {% csrf_token %}
-    {{ car_form.as_p }}
-    {{ car_prod_det_form.as_p }}
-    <button type="submit">Add Car</button>
-</form>
+                    <form method="post">
+                    {% csrf_token %}
+                    {{ car_form.as_p }}
+                    {{ car_prod_det_form.as_p }}
+                    <button class="btn btn-primary" type="submit">Add car</button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
 
 {% endblock %}

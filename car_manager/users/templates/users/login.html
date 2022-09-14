@@ -5,12 +5,26 @@
 
 {% block body %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy}}
+<div class="container-sm">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-3">
+            <div class="card p-2 m-2">
 
-        <button class="btn btn-outline-info" type="submit">Log in</button>
+                <div class="card-body shadow">
+                    <h5 class="card-title lead text-center fw-bold"> <i class="fa-regular fa-address-card"></i> Login</h5>
 
-    </form>
+                    <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy}}
 
+                    <button class="btn btn-primary" type="submit">Log in</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+
+</div>
 {% endblock %}

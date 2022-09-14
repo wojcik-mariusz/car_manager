@@ -4,10 +4,22 @@
 {% block title %} Log out {% endblock %}
 
 {% block body %}
+<div class="container">
+    <div class="row">
 
-    <h2>You have been logged out</h2>
-        <small class="text-muted">
-            <a href="{% url 'login' %}">Log in again?</a>
-        </small>
+        <div class="col"></div>
+        <div class="col-6">
+            <div class="card p-2 m-2">
 
+                <div class="card-body shadow">
+                    <h5 class="card-title lead text-center fw-bold"> <i class="fa-solid fa-diamond-exclamation"></i> <h2>You have been logged out</h2></h5>
+                    <small class="text-muted">
+                        <a href="{% url 'login' %}">Log in again?</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
 {% endblock %}
